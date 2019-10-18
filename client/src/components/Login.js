@@ -1,38 +1,43 @@
-import React from 'react';
-import { axiosWithAuth } from '../utils/axiosWithAuth';
+import React from "react";
+import { axiosWithAuth } from "../utils/axiosWithAuth";
 
-  const Login = props => {
-    const [loginForm, setLoginForm] = React.useState({username: "", password: ""});
-    
-    const handleChanges= e => {
-      setLoginForm({...loginForm, [e.target.name]: e.target.value})
-    };
+const Login = props => {
+  const [loginForm, setLoginForm] = React.useState({
+    username: "",
+    password: ""
+  });
 
-    const login = e => {
-      e.preventDefault();
-      axiosWithAuth()
-        .post('/api/login',loginForm)
-        .then(res => {
-          localStorage.setItem('token', res.data.payload);
-          props.history.push('/bubbles');
-        })
-        .catch(err => {
-          console.log(err.response)
-          setLoginForm({username: "", password: ""});
-        });
-    };
-  
+  const handleChanges = e => {
+    setLoginForm({ ...loginForm, [e.target.name]: e.target.value });
+  };
+
+  const login = e => {
+    e.preventDefault();
+    axiosWithAuth()
+      .post("/api/login", loginForm)
+      .then(res => {
+        localStorage.setItem("token", res.data.payload);
+        props.history.push("/bubbles");
+      })
+      .catch(err => {
+        console.log(err.response);
+        setLoginForm({ username: "", password: "" });
+      });
+  };
+
   return (
     <>
-      <div className ="form">
+      <div className="form">
         <form onSubmit={login}>
-        <input placeholder='Name' 
+          <input
+            placeholder="Name"
             type="text"
             name="username"
             value={loginForm.username}
             onChange={handleChanges}
           />
-          <input placeholder='Password' 
+          <input
+            placeholder="Password"
             type="password"
             name="password"
             value={loginForm.password}
@@ -40,7 +45,6 @@ import { axiosWithAuth } from '../utils/axiosWithAuth';
           />
 
           <button>Log in</button>
-
         </form>
       </div>
     </>
